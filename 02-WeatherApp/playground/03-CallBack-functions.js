@@ -42,6 +42,7 @@ const get_coordinates = (place_name, callback) => {
     } else {
       latitude = response.body.features[0].center[1];
       longitude = response.body.features[0].center[0];
+      place_name = response.body.features[0].place_name;
       coordinates = [latitude, longitude];
       console.log(`The coordinates of ${place_name} is ${coordinates}`);
       if (callback) {
