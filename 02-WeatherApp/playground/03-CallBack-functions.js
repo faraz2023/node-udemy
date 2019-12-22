@@ -8,7 +8,7 @@ const yargs = require("yargs");
 //  console.log(response.body);
 //});
 
-const get_weather_by_cooridnates = location => {
+const get_weather_by_geocodes = location => {
   if (location !== []) {
     latitude = location.latitude;
     longitude = location.longitude;
@@ -27,7 +27,7 @@ const get_weather_by_cooridnates = location => {
   }
 };
 
-const get_coordinates = (place_name, callback) => {
+const get_geocodes = (place_name, callback) => {
   url =
     `https://api.mapbox.com/geocoding/v5/` +
     `mapbox.places/${encodeURIComponent(place_name)}.json?access_token=` +
@@ -57,11 +57,11 @@ const get_coordinates = (place_name, callback) => {
 };
 
 const get_weather_by_name = place_name => {
-  get_coordinates(place_name, (error, data) => {
+  get_geocodes(place_name, (error, data) => {
     if (error) {
       console.log(error);
     } else {
-      get_weather_by_cooridnates(data);
+      get_weather_by_geocodes(data);
     }
   });
 };
