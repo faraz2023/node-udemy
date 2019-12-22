@@ -8,10 +8,10 @@ const yargs = require("yargs");
 //  console.log(response.body);
 //});
 
-const get_weather_by_cooridnates = place_coordinates => {
-  if (place_coordinates !== []) {
-    latitude = place_coordinates[0];
-    longitude = place_coordinates[1];
+const get_weather_by_cooridnates = location => {
+  if (location !== []) {
+    latitude = location.latitude;
+    longitude = location.longitude;
     wheather_url =
       `https://api.darksky.net/forecast/` +
       `5ab73615a4eea7184315759bab5452d2/${encodeURIComponent(
@@ -46,7 +46,11 @@ const get_coordinates = (place_name, callback) => {
       coordinates = [latitude, longitude];
       console.log(`The coordinates of ${place_name} is ${coordinates}`);
       if (callback) {
-        callback(undefined, coordinates);
+        callback(undefined, {
+          latitude: latitude,
+          longitude: longitude,
+          location: place_name
+        });
       }
     }
   });
