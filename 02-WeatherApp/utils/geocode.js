@@ -7,7 +7,7 @@ const get_geocodes = (place_name, callback) => {
     `pk.eyJ1IjoiZmFyYXoyMDIzIiwiYSI6ImNrNGRmYzl0bDAyZDEzbXFlZW0waXhuaWYifQ.` +
     `UTuCxMyuR0G_fYYp1yo7lQ&limit=1`;
 
-  request({ url: url, json: true }, (error, response) => {
+  request({ url, json: true }, (error, response) => {
     if (error) {
       callback("request failed", undefined);
     } else if (response.body.features.length === 0) {
@@ -17,11 +17,10 @@ const get_geocodes = (place_name, callback) => {
       longitude = response.body.features[0].center[0];
       place_name = response.body.features[0].place_name;
       coordinates = [latitude, longitude];
-      console.log(`The coordinates of ${place_name} is ${coordinates}`);
       if (callback) {
         callback(undefined, {
-          latitude: latitude,
-          longitude: longitude,
+          latitude,
+          longitude,
           location: place_name
         });
       }
