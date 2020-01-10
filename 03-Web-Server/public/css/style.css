@@ -15,6 +15,7 @@ body {
 .main-content {
   flex-grow: 1;
 }
+
 /*padding is spacing inside an element, margin is space outside of it */
 footer {
   color: #888888;
@@ -44,4 +45,17 @@ header a {
 .portrait {
   width: 250px;
   border: 10px solid #eeeeee;
+}
+
+input {
+  border: 1px solid #cccccc;
+  padding: 8px;
+}
+
+button {
+  cursor: pointer;
+  border: 1px solid #888888;
+  background: #888888;
+  color: white;
+  padding: 8px;
 }

@@ -1,7 +1,14 @@
 const path = require("path");
 const express = require("express");
 const hbs = require("hbs");
+
 const app = express();
+
+// setting up the PORT for heroku or, local use
+const port = process.env.PORT || 3001
+
+const geocode = require("./utils/geocode.js");
+const forecast = require("./utils/forecast.js");
 
 // set up the path to the public directory
 public_dir = path.join(__dirname, "../public");
@@ -58,18 +65,63 @@ app.get("/help/*", (req, res) => {
   });
 });
 
+const send_wheather_by_name = (address, callback) => {
+  geocode.get_geocodes(address, (error, data) => {
+    if (error) {
+      return callback(error, undefined)
+    }
+
+    const {
+      latitude,
+      longitude,
+      location
+    } = data;
+
+    forecast.get_weather_by_geocodes(data, (error, data) => {
+      if (error) {
+        return callback(error, undefined)
+      }
+      callback(undefined, {
+        latitude,
+        longitude,
+        location,
+        current_temp: data.current_tempeture,
+        rain_chance: data.rain_chance
+      })
+    })
+  })
+}
+
 // /wheather
 app.get("/wheather", (req, res) => {
   if (!req.query.address) {
     return res.send({
-      error: "provide address key"
+      error: "Provide Address Key"
     });
   }
-  console.log(req.query);
-  res.send({
-    name: req.query.address,
-    tempeture: 12
-  });
+  let address = req.query.address;
+  send_wheather_by_name(address, (error, data) => {
+    if (error) {
+      return res.send({
+        error: 'location error'
+      })
+    }
+    const {
+      latitude,
+      longitude,
+      location,
+      current_temp,
+      rain_chance
+    } = data;
+
+    res.send({
+      latitude,
+      longitude,
+      location,
+      current_temp,
+      rain_chance
+    });
+  })
 });
 
 app.get("*", (req, res) => {
@@ -81,6 +133,6 @@ app.get("*", (req, res) => {
 });
 
 // run server
-app.listen(3001, () => {
-  console.log("server is running on 3001");
+app.listen(port, () => {
+  console.log("server is running on 3002");
 });
