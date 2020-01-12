@@ -1,0 +1,9 @@
+//create heroku app and connect to remote repo
+heroku create faraz-wheather-app
+git remote add heroku https://git.heroku.com/faraz-wheather-app.git
+git remote
+
+
+https://faraz-wheather-app.herokuapp.com/ 
+https://git.heroku.com/faraz-wheather-app.git
+
