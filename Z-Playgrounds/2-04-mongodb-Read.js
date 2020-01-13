@@ -50,6 +50,7 @@ MongoClient.connect(connectionURL, {
     })
 
     //find
+    //find returns a courser to the result documents. See courser methods for more docs
     db.collection('questions').find({
         solved: false
     }).toArray((error, results) => {
